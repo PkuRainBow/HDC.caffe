@@ -1,4 +1,4 @@
-# Hard-Aware-Deeply-Cascaded-Embedding_release
+# Hard-Aware-Deeply-Cascaded-Embedding
 
 This repository has the source code for the paper "Hard-Aware-Deeply-Cascaded-Embedding_release"(submit to CVPR-2017). This paper is available
  on [arXiv](https://arxiv.org/abs/1611.05720). For the loss layer implementation, look at the folder caffe_layers.
