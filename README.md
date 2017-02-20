@@ -69,4 +69,4 @@ please add the following lines the **caffe.proto** :
 
 **Improve Space**
 
-To get better results than the paper, you could simple by sampling more batches. For convenience, we all sample for 5000 times. In our experiments, by sampling 10,000 times could further improve the performance.
+To get better results than the paper, you could simply by sampling more batches. For convenience, we all sample for 5000 times. In our experiments, by sampling 10,000 times could further improve the performance.
