@@ -191,7 +191,7 @@ namespace caffe {
 			}
 		}
 
-		int pos_hard_cnt = pos_pair_count * 1;
+		int pos_hard_cnt = pos_pair_count * hard_ratio;
 		int neg_hard_cnt = neg_pair_count * hard_ratio;
 		for (int i = 0; i < pos_hard_cnt; i++)  hard_loss += hard_loss_pos[i].first;
 		if (only_pos != 1) {
