@@ -1,6 +1,6 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
 
-**Information** :  **There is some problem with the released layer's implementation, we will fix it as soon as possible!**
+**Information** :  **The weight_decay for CARS196 should be 0.0002, the original version is typed to be 0.0005 !**
 
 This repository has the source code for the paper "Hard-Aware-Deeply-Cascaded-Embedding_release"(submit to CVPR-2017). This paper is available
  on [arXiv](https://arxiv.org/abs/1611.05720). For the loss layer implementation, look at the folder caffe_layers.
