@@ -1,5 +1,7 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
 
+**Information** :  **There is some problem with the released layer's implementation, we will fix it as soon as possible!**
+
 This repository has the source code for the paper "Hard-Aware-Deeply-Cascaded-Embedding_release"(submit to CVPR-2017). This paper is available
  on [arXiv](https://arxiv.org/abs/1611.05720). For the loss layer implementation, look at the folder caffe_layers.
  
@@ -40,30 +42,33 @@ please add the following lines the **caffe.proto** :
 ## Usage
 **Process Data**: (you should in the folder /code/):
 ```
- python hdc_process -d stanford_products
- python hdc_process -d cub200
- python hdc_process -d cars196
- python hdc_process -d deepfashion
+   python hdc_process.py -d stanford_products
+   python hdc_process.py -d cub200
+   python hdc_process.py -d cars196
+   python hdc_process.py -d deepfashion
 ```
    
 **Training Models**: (currently we only support HDC for your convenience)
 ```
-   python hdc_train -d stanford_products -c HDC
-   python hdc_train -d cub200 -c HDC
-   python hdc_train -d cars196 -c HDC
+   python hdc_train.py -d stanford_products -c HDC
+   python hdc_train.py -d cub200 -c HDC
+   python hdc_train.py -d cars196 -c HDC
 ```
    **You could change the image path in the training prototxt to train the models with bounding boxes or not**
    
 **Extract Features**:
  ```
-   python hdc_feature -d stanford_products -c HDC
-   python hdc_feature -d cub200 -c HDC
-   python hdc_feature -d cars196 -c HDC
+   python hdc_feature.py -d stanford_products -c HDC
+   python hdc_feature.py -d cub200 -c HDC
+   python hdc_feature.py -d cars196 -c HDC
 ```
 **Test Models**:
 ```
-   python hdc_test -d stanford_products -c HDC
-   python hdc_test -d cub200 -c HDC
-   python hdc_test -d cars196 -c HDC
+   python hdc_test.py -d stanford_products -c HDC
+   python hdc_test.py -d cub200 -c HDC
+   python hdc_test.py -d cars196 -c HDC
 ```
 
+**Improve Space**
+
+To get better results than the paper, you could simply by sampling more batches. For convenience, we all sample for 5000 times. In our experiments, by sampling 10,000 times could further improve the performance.
