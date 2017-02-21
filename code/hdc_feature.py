@@ -5,7 +5,7 @@ def main(argv):
     dataset = ''
     choice = ''
     try:
-        opts, args = getopt.getopt(argv, "hd:",["dataset="])
+        opts, args = getopt.getopt(argv, "hd:c:",["dataset=", "choice="])
     except getopt.GetoptError:
         print 'Error : hdc_feature.py -d <dataset> -c <method>'
         print '    or: hdc_feature.py --dataset=<dataset> --choice=<method>'

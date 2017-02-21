@@ -8,7 +8,7 @@ def main(argv):
     dataset = ''
     choice = ''
     try:
-        opts, args = getopt.getopt(argv, "hd:",["dataset="])
+        opts, args = getopt.getopt(argv, "hd:c:",["dataset=", "choice="])
     except getopt.GetoptError:
         print 'Error : hdc_test.py -d <dataset> -c <method>'
         print '    or: hdc_test.py --dataset=<dataset> --choice=<method>'
@@ -81,7 +81,7 @@ def main(argv):
     elif choice == 'Base':
         feature_dim = 128
         if dataset == 'cars196':
-            query_lmdb_path = '../feature/Base_cars196'
+            query_lmdb_path = '../feature/Base_CARS196_iter_20000'
             query_label_file = '../data/cars196/test_label.dat'
             data_lmdb_path = query_lmdb_path
             data_label_file = query_label_file

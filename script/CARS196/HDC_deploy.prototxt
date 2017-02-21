@@ -7,7 +7,7 @@ layer {
   top: "data"
   top: "label"
   include{
-    phase: TRAIN
+    phase: TEST
   }
   transform_param {
     crop_size: 224
@@ -17,10 +17,10 @@ layer {
   }
   image_data_param {    
     source: "..\\..\\data\\cars196\\test_8131.txt"
-    batch_size: 100   
+    batch_size: 200   
     new_height: 256
     new_width: 256
-    root_folder: "D:\\users\\v-yuhyua\\fromGPU02\\data\\stanford_cars\\car_ims\\"
+    root_folder: "Z:\\users\\v-yuhyua\\fromGPU02\\data\\stanford_cars\\car_ims\\"
   }
 }
 

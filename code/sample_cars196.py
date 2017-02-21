@@ -15,7 +15,7 @@ def preprocess_data(src_file, dst_file, choice):
             cur_str = lines[i]
             split_str = cur_str.split(' ')
             image_str = (split_str[0]).split('/')
-            cur_line = image_str[1] + "\t" + split_str[1] + "\n"
+            cur_line = image_str[1] + " " + split_str[1] + "\n"
             file_w.write(cur_line)
         file_w.close()
     else:
@@ -23,7 +23,7 @@ def preprocess_data(src_file, dst_file, choice):
             cur_str = lines[i]
             split_str = cur_str.split(' ')
             image_str = (split_str[0]).split('/')
-            cur_line = image_str[1] + "\t" + split_str[1] + "\n"
+            cur_line = image_str[1] + " " + split_str[1] + "\n"
             file_w.write(cur_line)
         file_w.close()
 
@@ -36,7 +36,7 @@ def sample_data(src_file, dst_file, class_cnt, batch_cnt):
         dict_small_class.append([])
     for i in xrange(len(lines)):
         cur_str = lines[i]
-        split_str = cur_str.split('\t')
+        split_str = cur_str.split(' ')
         dict_small_class[int(split_str[1])].append(split_str[0])
     for i in range(batch_cnt):
         small_class_list = random.sample(range(98), class_cnt)
