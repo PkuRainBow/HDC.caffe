@@ -27,8 +27,9 @@ please add the following lines the **caffe.proto** :
  message PairFastLossParameter {
    //margin for dissimilar pair
    optional float margin = 1 [default = 1.0];
-   optional float hard_ratio = 2 [default = 1.0];
-   optional float only_pos = 3 [default = 0];
+   optional float factor = 4 [default = 1.0];
+   optional float hard_ratio = 3 [default = 1.0];
+   optional float mode = NEG [default = BOTH];
  }
 ```      
 ## Prerequisites
