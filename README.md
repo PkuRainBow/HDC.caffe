@@ -23,18 +23,17 @@ If you find this work useful in your research, please consider citing :
 2. Add the "NormalizationLayer" and "PairFastLossLayer" to the caffe.
 please add the following lines the **caffe.proto** :
 ```
-    message PairFastLogSumLossParameter {
-      optional float pos_margin = 1 [default = 0.0];
-      optional float neg_margin = 2 [default = 1.0];
-      optional float hard_ratio = 3 [default = 1.0];
-      optional float factor = 4 [default = 2];
-      enum MODE {
-        POS = 0;
-        NEG = 1;
-        BOTH = 2;
-      }
-      optional MODE mode = 5 [default = BOTH];
-    }
+   message PairFastLossParameter {
+     optional float margin = 1 [default = 1.0];
+     optional float hard_ratio = 2 [default = 1.0];
+     optional float factor = 3 [default = 10];
+     enum MODE {
+       POS = 0;
+       NEG = 1;
+       BOTH = 2;
+     }
+     optional MODE mode = 4 [default = BOTH];
+   }
 
 ```      
 ## Prerequisites
