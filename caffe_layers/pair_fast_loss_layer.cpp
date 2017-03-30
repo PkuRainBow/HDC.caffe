@@ -79,8 +79,8 @@ namespace caffe {
 		Dtype triplet_rank_precision(0.0);
 		Dtype margin = this->layer_param_.pair_fast_loss_param().margin();// alpha
 		Dtype hard_ratio = this->layer_param_.pair_fast_loss_param().hard_ratio();// alpha
-		Dtype only_pos = this->layer_param_.pair_fast_loss_param().only_pos();// alpha
-		Dtype without_compute_rank = this->layer_param_.pair_fast_loss_param().without_compute_rank();
+		Dtype factor = this->layer_param_.pair_fast_loss_param().factor();// alpha
+		Dtype mode = this->layer_param_.pair_fast_loss_param().mode();
 
 		const Dtype* bottom_label = bottom[1]->cpu_data();
 
@@ -143,6 +143,8 @@ namespace caffe {
 			/** compute the same class pair-wise data loss **/
 			for (int i = 0; i < cur_size - 1; i++)
 			{
+				//only consider neg pairs
+				if (mode == 1) continue;
 				for (int j = i + 1; j < cur_size; j++)
 				{
 					int pos_1 = label_data_map[ent1.first][i];
@@ -157,29 +159,28 @@ namespace caffe {
 					loss += loss_pos_pair;
 				}
 			}
-			//if only use pos pairs we just skip all the neg pairs loss
-			if (only_pos != 1) {
-				/** compute the different class pair-wise data loss **/
-				for (int i = 0; i < cur_size; i++)
+			/** compute the different class pair-wise data loss **/
+			for (int i = 0; i < cur_size; i++)
+			{
+				//only consider pos pairs
+				if (mode == 0) continue;
+				int index_candidate = -1;
+				for (auto const &ent2 : label_data_map)
 				{
-					int index_candidate = -1;
-					for (auto const &ent2 : label_data_map)
+					//Dtype cur_margin = max(max_dist_class[ent1.first], max_dist_class[ent2.first]);
+					index_candidate++;
+					if (ent1.first == ent2.first) continue;
+					int neg_size = label_data_map[ent2.first].size();
+					for (int j = 0; j < neg_size; j++)
 					{
-						//Dtype cur_margin = max(max_dist_class[ent1.first], max_dist_class[ent2.first]);
-						index_candidate++;
-						if (ent1.first == ent2.first) continue;
-						int neg_size = label_data_map[ent2.first].size();
-						for (int j = 0; j < neg_size; j++)
-						{
-							neg_pair_count += Dtype(1);
-							int pos = label_data_map[ent1.first][i];
-							int neg = label_data_map[ent2.first][j];
-							Dtype loss_pos_neg = std::max(margin - dist_matrix.cpu_data()[pos * nums + neg], Dtype(0.0));
-							float tmp_neg_pair = loss_pos_neg;
-							if (pos < neg)  hard_loss_neg.push_back(std::make_pair(tmp_neg_pair, std::make_pair(pos, neg)));
-							else hard_loss_neg.push_back(std::make_pair(tmp_neg_pair, std::make_pair(neg, pos)));
-							loss += loss_pos_neg;
-						}
+						neg_pair_count += Dtype(1);
+						int pos = label_data_map[ent1.first][i];
+						int neg = label_data_map[ent2.first][j];
+						Dtype loss_pos_neg = std::max(margin - dist_matrix.cpu_data()[pos * nums + neg], Dtype(0.0));
+						float tmp_neg_pair = factor * loss_pos_neg;
+						if (pos < neg)  hard_loss_neg.push_back(std::make_pair(tmp_neg_pair, std::make_pair(pos, neg)));
+						else hard_loss_neg.push_back(std::make_pair(tmp_neg_pair, std::make_pair(neg, pos)));
+						loss += tmp_neg_pair;
 					}
 				}
 			}
@@ -188,18 +189,14 @@ namespace caffe {
 		if (hard_ratio < 1) {
 			sort(hard_loss_pos.begin(), hard_loss_pos.end(), [](const pair<float, pair<int, int>>& a, const pair<float, pair<int, int>>& b)
 			{	return a.first > b.first; });
-			if (only_pos != 1) {
-				sort(hard_loss_neg.begin(), hard_loss_neg.end(), [](const pair<float, pair<int, int>>& a, const pair<float, pair<int, int>>& b)
-				{	return a.first > b.first; });
-			}
+			sort(hard_loss_neg.begin(), hard_loss_neg.end(), [](const pair<float, pair<int, int>>& a, const pair<float, pair<int, int>>& b)
+			{	return a.first > b.first; });
 		}
 
 		int pos_hard_cnt = pos_pair_count * hard_ratio;
 		int neg_hard_cnt = neg_pair_count * hard_ratio;
 		for (int i = 0; i < pos_hard_cnt; i++)  hard_loss += hard_loss_pos[i].first;
-		if (only_pos != 1) {
-			for (int i = 0; i < neg_hard_cnt; i++)  hard_loss += hard_loss_neg[i].first;
-		}
+		for (int i = 0; i < neg_hard_cnt; i++)  hard_loss += hard_loss_neg[i].first;
 
 		int all_hard_cnt = 0;
 		for (int i = 0; i < pos_hard_cnt; i++) {
@@ -208,12 +205,10 @@ namespace caffe {
 				pair_matrix.mutable_cpu_data()[hard_loss_pos[i].second.first * nums + hard_loss_pos[i].second.second] = Dtype(1);
 			}
 		}
-		if (only_pos != 1) {
-			for (int i = 0; i < neg_hard_cnt; i++) {
-				if (hard_loss_neg[i].first > 0) {
-					all_hard_cnt++;
-					pair_matrix.mutable_cpu_data()[hard_loss_neg[i].second.first * nums + hard_loss_neg[i].second.second] = Dtype(1);
-				}
+		for (int i = 0; i < neg_hard_cnt; i++) {
+			if (hard_loss_neg[i].first > 0) {
+				all_hard_cnt++;
+				pair_matrix.mutable_cpu_data()[hard_loss_neg[i].second.first * nums + hard_loss_neg[i].second.second] = Dtype(1);
 			}
 		}
 		hard_loss = hard_loss / all_hard_cnt;
@@ -228,7 +223,7 @@ namespace caffe {
 	void PairFastLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
 		const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom) {
 		Dtype alpha = top[0]->cpu_diff()[0] / static_cast<Dtype>(top[2]->mutable_cpu_data()[0]);
-
+		Dtype factor = this->layer_param_.pair_fast_loss_param().factor();
 		const int channels = bottom[0]->channels();
 		const int nums = bottom[0]->num();
 		const int count = bottom[0]->count();
@@ -256,7 +251,7 @@ namespace caffe {
 						// postive pair gradient update
 						if ((bottom[1]->cpu_data()[i] == bottom[1]->cpu_data()[j]))
 						{
-
+							//Dtype loss_factor =  dist_matrix.cpu_data()[i * nums + j];
 							caffe_cpu_axpby(
 								channels,
 								alpha,
@@ -272,15 +267,16 @@ namespace caffe {
 						}
 						else
 						{
+							//Dtype loss_factor = abs(2 - dist_matrix.cpu_data()[i * nums + j]);
 							caffe_cpu_axpby(
 								channels,
-								alpha,
+								factor * alpha,
 								diff_matrix.cpu_data() + channels * (j * nums + i),
 								Dtype(1),
 								bout + (i*channels));
 							caffe_cpu_axpby(
 								channels,
-								alpha,
+								factor * alpha,
 								diff_matrix.cpu_data() + channels * (i * nums + j),
 								Dtype(1),
 								bout + (j*channels));
