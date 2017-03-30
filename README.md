@@ -23,14 +23,19 @@ If you find this work useful in your research, please consider citing :
 2. Add the "NormalizationLayer" and "PairFastLossLayer" to the caffe.
 please add the following lines the **caffe.proto** :
 ```
- optional PairFastLossParameter pair_fast_loss_param = 154; //change it to a number according to your version
- message PairFastLossParameter {
-   //margin for dissimilar pair
-   optional float margin = 1 [default = 1.0];
-   optional float factor = 4 [default = 1.0];
-   optional float hard_ratio = 3 [default = 1.0];
-   optional float mode = NEG [default = BOTH];
- }
+    message PairFastLogSumLossParameter {
+      optional float pos_margin = 1 [default = 0.0];
+      optional float neg_margin = 2 [default = 1.0];
+      optional float hard_ratio = 3 [default = 1.0];
+      optional float factor = 4 [default = 2];
+      enum MODE {
+        POS = 0;
+        NEG = 1;
+        BOTH = 2;
+      }
+      optional MODE mode = 5 [default = BOTH];
+    }
+
 ```      
 ## Prerequisites
 1. caffe (python interface)
