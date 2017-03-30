@@ -1,5 +1,7 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
 
+**Here is the link of the trained models for [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
+
 **Update 03/30/2017 Information** :  **The attached models are not well trained for the final test, as there exist some small bugs. We will release all the final single best models as soon as possible ! we fix a bug that the gradient problem for pair_fast_loss_layer !**
 
 **Information** :  **The weight_decay for CARS196 should be 0.0002, the original version is typed to be 0.0005 !**
