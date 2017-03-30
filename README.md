@@ -1,6 +1,8 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
 
-**Update 03/30/2017 Information** :  **we fix a bug that the gradient problem for pair_fast_loss_layer !**
+**Here is the link of the trained models for [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
+
+**Update 03/30/2017 Information** :  **The attached models are not well trained for the final test, as there exist some small bugs. We will release all the final single best models as soon as possible ! we fix a bug that the gradient problem for pair_fast_loss_layer !**
 
 **Information** :  **The weight_decay for CARS196 should be 0.0002, the original version is typed to be 0.0005 !**
 
@@ -23,13 +25,18 @@ If you find this work useful in your research, please consider citing :
 2. Add the "NormalizationLayer" and "PairFastLossLayer" to the caffe.
 please add the following lines the **caffe.proto** :
 ```
- optional PairFastLossParameter pair_fast_loss_param = 154; //change it to a number according to your version
- message PairFastLossParameter {
-   //margin for dissimilar pair
-   optional float margin = 1 [default = 1.0];
-   optional float hard_ratio = 2 [default = 1.0];
-   optional float only_pos = 3 [default = 0];
- }
+   message PairFastLossParameter {
+     optional float margin = 1 [default = 1.0];
+     optional float hard_ratio = 2 [default = 1.0];
+     optional float factor = 3 [default = 10];
+     enum MODE {
+       POS = 0;
+       NEG = 1;
+       BOTH = 2;
+     }
+     optional MODE mode = 4 [default = BOTH];
+   }
+
 ```      
 ## Prerequisites
 1. caffe (python interface)
