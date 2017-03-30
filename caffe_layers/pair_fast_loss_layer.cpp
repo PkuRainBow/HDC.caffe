@@ -58,6 +58,7 @@ namespace caffe {
 				dist_matrix.mutable_cpu_data()[j * nums + i] = dist_matrix.mutable_cpu_data()[i * nums + j];
 			}
 		}
+
 		/** compute the pair_matrix to record whether the loss is 0 at position (i,j), all init as 0 **/
 		for (int i = 0; i < nums; i++)
 		{
@@ -79,6 +80,7 @@ namespace caffe {
 		Dtype margin = this->layer_param_.pair_fast_loss_param().margin();// alpha
 		Dtype hard_ratio = this->layer_param_.pair_fast_loss_param().hard_ratio();// alpha
 		Dtype only_pos = this->layer_param_.pair_fast_loss_param().only_pos();// alpha
+		Dtype without_compute_rank = this->layer_param_.pair_fast_loss_param().without_compute_rank();
 
 		const Dtype* bottom_label = bottom[1]->cpu_data();
 
@@ -103,6 +105,7 @@ namespace caffe {
 			}
 		}
 		/** calculate the triplet precision **/
+
 		for (auto const &ent1 : label_data_map)
 		{
 			int cur_size = label_data_map[ent1.first].size();
@@ -224,8 +227,7 @@ namespace caffe {
 	template<typename Dtype>
 	void PairFastLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
 		const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom) {
-		Dtype rank_precision = top[1]->mutable_cpu_data()[0];
-		Dtype alpha = (1 / rank_precision) * 2 * top[0]->cpu_diff()[0] / static_cast<Dtype>(top[2]->mutable_cpu_data()[0]);
+		Dtype alpha = top[0]->cpu_diff()[0] / static_cast<Dtype>(top[2]->mutable_cpu_data()[0]);
 
 		const int channels = bottom[0]->channels();
 		const int nums = bottom[0]->num();
