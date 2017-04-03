@@ -51,7 +51,7 @@ please add the following lines the **caffe.proto** :
 3.  You should change the path of images in the Training Prototxt.
 
 ## Usage
-**Process Data**: (you should in the folder /code/):
+**Process Data**: (you should in the folder /src_code/):
 ```
    python hdc_process.py -d stanford_products
    python hdc_process.py -d cub200
