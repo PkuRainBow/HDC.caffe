@@ -1,6 +1,22 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
-**sorry for the code update error causing some files missing ! I will upload all the missing files as soon as possible !**
+**04/11/2017  Add some tips on how to add new layers to caffe!**
 
+**Note** I found many people do not know how to add new layers to caffe framework. Here is a vivid explainations: First you need to add the "*.hpp *cpp *.cu" to the project. Then you need to edit the caffe.proto. First you need to check the max ID that you have used. Here we will take the [caffe.proto](https://github.com/BVLC/caffe/blob/master/src/caffe/proto/caffe.proto) as an example. You could check that in the line 407 with the **optional WindowDataParameter window_data_param = 129;**. So you check in the lines(1169-1200) to know that the WindowDataParameter contains 13 parameters. Therefore, you need to add this line **optional PairFastLossParameter pair_fast_loss_param = 143;** as 129 + 13 = 142. Besides, you also need to add the the following lines to spercify the parameters of the newly added layers.
+
+```
+   message PairFastLossParameter {
+     optional float margin = 1 [default = 1.0];
+     optional float hard_ratio = 2 [default = 1.0];
+     optional float factor = 3 [default = 10];
+     enum MODE {
+       POS = 0;
+       NEG = 1;
+       BOTH = 2;
+     }
+     optional MODE mode = 4 [default = BOTH];
+   }
+
+``` 
 
 **Here is the link of the trained models for [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
 
@@ -26,22 +42,7 @@ If you find this work useful in your research, please consider citing :
 1. Install [Caffe](https://github.com/BVLC/caffe) (including the python interface if you want to use the test code) 
 2. Add the "NormalizationLayer" and "PairFastLossLayer" to the caffe.
 
-**Note** I found many people do not know how to add new layers to caffe framework. Here is a vivid explainations: First you need to add the "*.hpp *cpp *.cu" to the project. Then you need to edit the caffe.proto. First you need to check the max ID that you have used. Here we will take the [caffe.proto](https://github.com/BVLC/caffe/blob/master/src/caffe/proto/caffe.proto) as an example. You could check that in the line 407 with the **optional WindowDataParameter window_data_param = 129;**. So you check in the lines(1169-1200) to know that the WindowDataParameter contains 13 parameters. Therefore, you need to add this line **optional PairFastLossParameter pair_fast_loss_param = 143;** as 129 + 13 = 142. Besides, you also need to add the the following lines to spercify the parameters of the newly added layers.
-
-```
-   message PairFastLossParameter {
-     optional float margin = 1 [default = 1.0];
-     optional float hard_ratio = 2 [default = 1.0];
-     optional float factor = 3 [default = 10];
-     enum MODE {
-       POS = 0;
-       NEG = 1;
-       BOTH = 2;
-     }
-     optional MODE mode = 4 [default = BOTH];
-   }
-
-```      
+     
 ## Prerequisites
 1. caffe (python interface)
 2. matplotlib,cPickle,numpy,lmdb
