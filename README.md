@@ -25,6 +25,7 @@ If you find this work useful in your research, please consider citing :
 ## Installation
 1. Install [Caffe](https://github.com/BVLC/caffe) (including the python interface if you want to use the test code) 
 2. Add the "NormalizationLayer" and "PairFastLossLayer" to the caffe.
+
 **Note** I found many people do not know how to add new layers to caffe framework. Here is a vivid explainations: First you need to add the "*.hpp *cpp *.cu" to the project. Then you need to edit the caffe.proto. First you need to check the max ID that you have used. Here we will take the [caffe.proto](https://github.com/BVLC/caffe/blob/master/src/caffe/proto/caffe.proto) as an example. You could check that in the line 407 with the **optional WindowDataParameter window_data_param = 129;**. So you check in the lines(1169-1200) to know that the WindowDataParameter contains 13 parameters. Therefore, you need to add this line **optional PairFastLossParameter pair_fast_loss_param = 143;** as 129 + 13 = 142. Besides, you also need to add the the following lines to spercify the parameters of the newly added layers.
 
 ```
