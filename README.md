@@ -1,4 +1,11 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
+
+**Here is the link of the trained models for**
+
+**Drop Box [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
+
+**BaiduYunPan [Stanford-Online-Products/CUB-200-2011/CARS196]( [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** )** 
+
 **04/11/2017  Add some tips on how to add new layers to caffe!**
 
 **Note!!!** I found many people do not know how to add new layers to caffe framework. Here is a vivid explainations: First you need to add the "*.hpp *cpp *.cu" to the project. Then you need to edit the caffe.proto. First you need to check the max ID that you have used. Here we will take the [caffe.proto](https://github.com/BVLC/caffe/blob/master/src/caffe/proto/caffe.proto) as an example. You could check that in the line 407 with the **optional WindowDataParameter window_data_param = 129;**. So you check in the lines(1169-1200) to know that the WindowDataParameter contains 13 parameters. Therefore, you need to add this line **optional PairFastLossParameter pair_fast_loss_param = 143;** as 129 + 13 = 142. Besides, you also need to add the the following lines to spercify the parameters of the newly added layers.
@@ -18,11 +25,6 @@
 
 ``` 
 
-**Here is the link of the trained models for **
-
-**Drop Box [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
-
-**BaiduYunPan [Stanford-Online-Products/CUB-200-2011/CARS196]( [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** )** 
 
 **Update 03/30/2017 Information** :  **The attached models are not well trained for the final test, as there exist some small bugs. We will release all the final single best models as soon as possible ! we fix a bug that the gradient problem for pair_fast_loss_layer !**
 
