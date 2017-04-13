@@ -4,7 +4,7 @@
 
 **Drop Box [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
 
-**BaiduYunPan [Stanford-Online-Products/CUB-200-2011/CARS196]( [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** )** 
+**BaiduYunPan [Stanford-Online-Products/CUB-200-2011/CARS196]( [Stanford-Online-Products/CUB-200-2011/CARS196](https://pan.baidu.com/s/1chDg54)** )** 
 
 **04/11/2017  Add some tips on how to add new layers to caffe!**
 
