@@ -1,6 +1,6 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
 
-**Here is the link of the trained models for**
+**Here is the link of the trained models(permitted for NON-COMMERCIAL usage only)**
 
 **Drop Box [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
 
