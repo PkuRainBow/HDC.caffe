@@ -1,5 +1,7 @@
 # Hard-Aware-Deeply-Cascaded-Embedding
 
+** There exist a typo previously about the initial learning rate of CARS196, 0.001 should be changed to 0.01. The HDC prefers larger learning rates.**
+
 **Here is the link of the trained models(permitted for NON-COMMERCIAL usage only)**
 
 **Drop Box [Stanford-Online-Products/CUB-200-2011/CARS196](https://www.dropbox.com/sh/jpku87vedyohy27/AACDNvAXM8q7kYel0npJ2IFZa?dl=0)** 
