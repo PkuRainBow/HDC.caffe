@@ -1,7 +1,7 @@
 net: "./HDC_train_deploy.prototxt"
 display: 10
 average_loss: 40
-base_lr: 0.001
+base_lr: 0.01
 lr_policy: "step"
 stepsize: 10000
 gamma: 0.1
