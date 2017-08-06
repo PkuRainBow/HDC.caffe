@@ -1,4 +1,6 @@
-# Hard-Aware-Deeply-Cascaded-Embedding
+# Hard-Aware-Deeply-Cascaded-Embedding ICCV2017 (spotlight)
+
+**Congratulations to our work is accepted by ICCV2017 (spotlight).**
 
 **There exist a typo previously about the initial learning rate of CARS196, 0.001 should be changed to 0.01. The HDC prefers larger learning rates.**
 
