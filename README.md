@@ -1,4 +1,4 @@
-# Hard-Aware-Deeply-Cascaded-Embedding ICCV2017 (spotlight)
+# Hard-Aware-Deeply-Cascaded-Embedding [ICCV2017 (spotlight)]
 
 **Congratulations to our work is accepted by ICCV2017 (spotlight).**
 
